@@ -411,6 +411,12 @@ namespace tgvoip{
 			void (*upgradeToGroupCallRequested)(VoIPController*);
 		};
 		void SetCallbacks(Callbacks callbacks);
+        
+        struct RecorderCallbacks {
+            void (*inputProcessBuffer)(unsigned char *, size_t length);
+            void (*outputProcessBuffer)(unsigned char *, size_t length);
+        };
+        void SetRecorderCallbacks(RecorderCallbacks callbacks);
 		
 		float GetOutputLevel(){
 			return 0.0f;
@@ -685,6 +691,7 @@ namespace tgvoip{
 
 		uint32_t peerCapabilities;
 		Callbacks callbacks;
+        RecorderCallbacks recorderCallbacks;
 		bool didReceiveGroupCallKey;
 		bool didReceiveGroupCallKeyAck;
 		bool didSendGroupCallKey;

@@ -736,6 +736,12 @@ void VoIPController::SetCallbacks(VoIPController::Callbacks callbacks){
 		callbacks.connectionStateChanged(this, state);
 }
 
+void VoIPController::SetRecorderCallbacks(RecorderCallbacks callbacks) {
+    this->recorderCallbacks = callbacks;
+    if (audioOutput)
+        audioOutput->recorderCallback = callbacks.outputProcessBuffer;
+}
+
 void VoIPController::SetAudioOutputGainControlEnabled(bool enabled){
 	LOGD("New output AGC state: %d", enabled);
 }
@@ -1031,6 +1037,8 @@ void VoIPController::HandleAudioInput(unsigned char *data, size_t len, unsigned 
 	//LOGV("Audio packet size %u", (unsigned int)len);
 	if(!receivedInitAck)
 		return;
+    
+    recorderCallbacks.inputProcessBuffer(data, len);
 
 	BufferOutputStream pkt(1500);
 

@@ -31,6 +31,8 @@ public:
 	//static std::unique_ptr<AudioOutput> Create(std::string deviceID, void* platformSpecific);
 	static void EnumerateDevices(std::vector<AudioOutputDevice>& devs);
 	bool IsInitialized();
+    
+    void (*recorderCallback)(unsigned char *, size_t length) = NULL;
 
 protected:
 	std::string currentDevice;

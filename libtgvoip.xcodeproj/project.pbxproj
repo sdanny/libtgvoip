@@ -1028,6 +1028,7 @@
 		69FB0B2420F6860D00827817 /* MessageThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageThread.cpp; sourceTree = "<group>"; };
 		69FB0B2C20F6860D00827817 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
 		D00ACA4D20222F5D0045D427 /* SetupLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetupLogging.h; sourceTree = "<group>"; };
+		F6C5EA4221FEF13A00327D98 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1141,6 +1142,7 @@
 		692AB9061E675E8700706ACC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F6C5EA4221FEF13A00327D98 /* Foundation.framework */,
 				692AB91C1E675F7000706ACC /* AudioToolbox.framework */,
 				692AB91D1E675F7000706ACC /* AudioUnit.framework */,
 				692AB91E1E675F7000706ACC /* CoreAudio.framework */,
