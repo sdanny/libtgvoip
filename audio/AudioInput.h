@@ -30,6 +30,8 @@ public:
 	//static AudioInput* Create(std::string deviceID, void* platformSpecific);
 	static void EnumerateDevices(std::vector<AudioInputDevice>& devs);
 	static int32_t GetEstimatedDelay();
+    
+    void (*recorderCallback)(void *buffer, size_t length) = NULL;
 
 protected:
 	std::string currentDevice;

@@ -58,6 +58,8 @@ void AudioInputAudioUnit::HandleBufferCallback(AudioBufferList *ioData){
 #endif
 		while(remainingDataSize>=BUFFER_SIZE*2){
 			InvokeCallback((unsigned char*)remainingData, BUFFER_SIZE*2);
+            if (recorderCallback)
+                recorderCallback(remainingData, BUFFER_SIZE * 2);
 			remainingDataSize-=BUFFER_SIZE*2;
 			if(remainingDataSize>0){
 				memmove(remainingData, remainingData+(BUFFER_SIZE*2), remainingDataSize);

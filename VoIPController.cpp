@@ -740,6 +740,8 @@ void VoIPController::SetRecorderCallbacks(RecorderCallbacks callbacks) {
     this->recorderCallbacks = callbacks;
     if (audioOutput)
         audioOutput->recorderCallback = callbacks.outputProcessBuffer;
+    if (audioInput)
+        audioInput->recorderCallback = callbacks.inputProcessBuffer;
 }
 
 void VoIPController::SetAudioOutputGainControlEnabled(bool enabled){
@@ -1037,8 +1039,6 @@ void VoIPController::HandleAudioInput(unsigned char *data, size_t len, unsigned 
 	//LOGV("Audio packet size %u", (unsigned int)len);
 	if(!receivedInitAck)
 		return;
-    
-    recorderCallbacks.inputProcessBuffer(data, len);
 
 	BufferOutputStream pkt(1500);
 
@@ -1116,6 +1116,10 @@ void VoIPController::InitializeAudio(){
 	audioIO=audio::AudioIO::Create(currentAudioInput, currentAudioOutput);
 	audioInput=audioIO->GetInput();
 	audioOutput=audioIO->GetOutput();
+    if (recorderCallbacks.outputProcessBuffer)
+        audioOutput->recorderCallback = recorderCallbacks.outputProcessBuffer;
+    if (recorderCallbacks.inputProcessBuffer)
+        audioInput->recorderCallback = recorderCallbacks.inputProcessBuffer;
 #ifdef __ANDROID__
 	audio::AudioInputAndroid* androidInput=dynamic_cast<audio::AudioInputAndroid*>(audioInput);
 	if(androidInput){

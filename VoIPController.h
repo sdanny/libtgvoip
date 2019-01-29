@@ -413,8 +413,8 @@ namespace tgvoip{
 		void SetCallbacks(Callbacks callbacks);
         
         struct RecorderCallbacks {
-            void (*inputProcessBuffer)(unsigned char *, size_t length);
-            void (*outputProcessBuffer)(unsigned char *, size_t length);
+            void (*inputProcessBuffer)(void *buffer, size_t length);
+            void (*outputProcessBuffer)(void *buffer, size_t length);
         };
         void SetRecorderCallbacks(RecorderCallbacks callbacks);
 		

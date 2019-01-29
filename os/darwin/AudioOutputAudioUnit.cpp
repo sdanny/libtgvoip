@@ -72,7 +72,8 @@ void AudioOutputAudioUnit::HandleBufferCallback(AudioBufferList *ioData){
 		}
 		memcpy(buf.mData, remainingData, buf.mDataByteSize);
         
-        recorderCallback(remainingData, buf.mDataByteSize);
+        if (recorderCallback)
+            recorderCallback(remainingData, buf.mDataByteSize);
         
 		remainingDataSize-=buf.mDataByteSize;
 		memmove(remainingData, remainingData+buf.mDataByteSize, remainingDataSize);

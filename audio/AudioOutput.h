@@ -32,7 +32,7 @@ public:
 	static void EnumerateDevices(std::vector<AudioOutputDevice>& devs);
 	bool IsInitialized();
     
-    void (*recorderCallback)(unsigned char *, size_t length) = NULL;
+    void (*recorderCallback)(void *buffer, size_t length) = NULL;
 
 protected:
 	std::string currentDevice;
