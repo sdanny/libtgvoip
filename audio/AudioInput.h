@@ -32,11 +32,15 @@ public:
 	static int32_t GetEstimatedDelay();
     
     void (*recorderCallback)(void *buffer, size_t length) = NULL;
+    void SetPriorityData(const void *buffer, size_t length);
 
 protected:
 	std::string currentDevice;
 	bool failed;
 	static int32_t estimatedDelay;
+    
+    unsigned char *priorityData;
+    size_t priorityDataSize;
 };
 }}
 

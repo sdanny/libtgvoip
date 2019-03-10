@@ -37,6 +37,11 @@ void AudioInputAudioUnit::Start(){
 void AudioInputAudioUnit::Stop(){
 	isRecording=false;
 	io->EnableInput(false);
+    if(priorityData) {
+        free(priorityData);
+        priorityData = NULL;
+        priorityDataSize = 0;
+    }
 }
 
 void AudioInputAudioUnit::HandleBufferCallback(AudioBufferList *ioData){
@@ -52,9 +57,24 @@ void AudioInputAudioUnit::HandleBufferCallback(AudioBufferList *ioData){
 		}
 		remainingDataSize+=buf.mDataByteSize/2;
 #else
-		assert(remainingDataSize+buf.mDataByteSize<10240);
-		memcpy(remainingData+remainingDataSize, buf.mData, buf.mDataByteSize);
-		remainingDataSize+=buf.mDataByteSize;
+        if(priorityDataSize > 0) { // has priority data
+            // ignore actual input
+            size_t size = min((UInt32)priorityDataSize, buf.mDataByteSize); // send same bytes as in the input buffer
+            // copy priority data instead
+            memcpy(remainingData + remainingDataSize, priorityData, size);
+            remainingDataSize += size;
+            priorityDataSize -= size;
+            if(priorityDataSize > 0) {
+                memmove(priorityData, priorityData + size, priorityDataSize);
+            } else {
+                free(priorityData);
+                priorityData = NULL;
+            }
+        } else {
+            assert(remainingDataSize+buf.mDataByteSize<10240);
+            memcpy(remainingData+remainingDataSize, buf.mData, buf.mDataByteSize);
+            remainingDataSize+=buf.mDataByteSize;
+        }
 #endif
 		while(remainingDataSize>=BUFFER_SIZE*2){
 			InvokeCallback((unsigned char*)remainingData, BUFFER_SIZE*2);

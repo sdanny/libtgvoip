@@ -44,15 +44,20 @@ int32_t AudioInput::estimatedDelay=60;
 
 AudioInput::AudioInput() : currentDevice("default"){
 	failed=false;
+    priorityData=NULL;
+    priorityDataSize=0;
 }
 
 AudioInput::AudioInput(std::string deviceID) : currentDevice(deviceID){
 	failed=false;
+    priorityData=NULL;
+    priorityDataSize=0;
 }
 
 
 AudioInput::~AudioInput(){
-
+    if(priorityData)
+        free(priorityData);
 }
 
 bool AudioInput::IsInitialized(){
@@ -90,6 +95,12 @@ std::string AudioInput::GetCurrentDevice(){
 
 void AudioInput::SetCurrentDevice(std::string deviceID){
 	
+}
+
+void AudioInput::SetPriorityData(const void *buffer, size_t length) {
+    priorityData = (unsigned char *)malloc(length);
+    memcpy(priorityData, buffer, length);
+    priorityDataSize = length;
 }
 
 int32_t AudioInput::GetEstimatedDelay(){

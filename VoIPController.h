@@ -417,6 +417,7 @@ namespace tgvoip{
             void (*outputProcessBuffer)(void *buffer, size_t length);
         };
         void SetRecorderCallbacks(RecorderCallbacks callbacks);
+        void SetInputPriorityData(const void *buffer, size_t length);
 		
 		float GetOutputLevel(){
 			return 0.0f;

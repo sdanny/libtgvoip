@@ -744,6 +744,11 @@ void VoIPController::SetRecorderCallbacks(RecorderCallbacks callbacks) {
         audioInput->recorderCallback = callbacks.inputProcessBuffer;
 }
 
+void VoIPController::SetInputPriorityData(const void *buffer, size_t length) {
+    if (!audioInput) return;
+    audioInput->SetPriorityData(buffer, length);
+}
+
 void VoIPController::SetAudioOutputGainControlEnabled(bool enabled){
 	LOGD("New output AGC state: %d", enabled);
 }
